@@ -1,0 +1,13 @@
+pkgbase = csharp-lua
+	pkgdesc = The C# to Lua compiler
+	pkgver = 2.0
+	pkgrel = 1
+	url = https://github.com/yanghuan/CSharp.lua
+	arch = x86_64
+	license = Apache
+	depends = dotnet-sdk
+	options = !strip
+	source = CSharp.lua-2.0.tar.gz::https://github.com/yanghuan/CSharp.lua/archive/refs/tags/2.0.tar.gz
+	sha256sums = 037f079e3e00db81f47eaa97c7cf6654b58f47832181b28d8d1bbf9d804cb73d
+
+pkgname = csharp-lua

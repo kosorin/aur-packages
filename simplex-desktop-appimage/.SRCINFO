@@ -1,0 +1,27 @@
+pkgbase = simplex-desktop-appimage
+	pkgdesc = Messaging platform without user profile identifiers of any kind — 100% private by design
+	pkgver = 5.4.0
+	pkgrel = 1
+	url = https://simplex.chat/
+	arch = x86_64
+	license = AGPL3
+	depends = fuse2
+	depends = zlib
+	depends = hicolor-icon-theme
+	provides = simplex-chat
+	conflicts = simplex-chat
+	options = !strip
+	source = simplex-desktop-x86_64.AppImage::https://github.com/simplex-chat/simplex-chat/releases/download/v5.4.0/simplex-desktop-x86_64.AppImage
+	source = https://raw.githubusercontent.com/simplex-chat/simplex-chat/v5.4.0/PRIVACY.md
+	source = https://raw.githubusercontent.com/simplex-chat/simplex-chat/v5.4.0/README.md
+	source = logo-symbol-dark.svg
+	source = logo-symbol-light.svg
+	source = simplex-desktop.desktop
+	sha256sums = 73ceebdc99fd330a79fa0564258f2788183a478c04537bf1f22b712a225d1d6f
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = simplex-desktop-appimage
