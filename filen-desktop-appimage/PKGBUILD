@@ -1,0 +1,53 @@
+# Maintainer: David Kosorin <david@kosorin.net>
+_pkgname=filen-desktop
+pkgname=filen-desktop-appimage
+pkgver=2.0.10
+pkgrel=1
+pkgdesc="Zero knowledge end-to-end encrypted cloud storage desktop client"
+arch=('x86_64')
+url="https://filen.io/"
+license=('AGPL3')
+conflicts=()
+depends=()
+options=(!strip)
+_filename="filen_${arch[0]}.AppImage"
+source=("https://cdn.filen.io/desktop/release/${_filename}")
+sha256sums=('e90c6b8782b3808f38e1a6c5bd7ddf947e0fc220e06d15d75f5d475c7e71b14d')
+
+prepare() {
+    cd "${srcdir}"
+    rm -rf "${_pkgname}"
+    rm -rf "squashfs-root"
+    chmod +x "${_filename}"
+    "./${_filename}" --appimage-extract
+    rm "${_filename}"
+    mv "squashfs-root" "${_pkgname}"
+}
+
+package() {
+
+    # Configure
+    sed -i "${srcdir}/${_pkgname}/${_pkgname}.desktop" \
+        -e "s|^Exec=AppRun|Exec=env APPIMAGELAUNCHER_DISABLE=1 DESKTOPINTEGRATION=0 APPDIR=\"/opt/${_pkgname}\" \"/opt/${_pkgname}/AppRun\"|"
+
+    # Icons
+    for _size in '1024x1024' '512x512' '256x256' '128x128' '64x64' '48x48' '32x32' '24x24' '16x16'; do
+        install -d -m755 "${pkgdir}/usr/share/icons/hicolor/${_size}/apps"
+        install -D -m644 \
+            "${srcdir}/${_pkgname}/usr/share/icons/hicolor/${_size}/apps/${_pkgname}.png" \
+            "${pkgdir}/usr/share/icons/hicolor/${_size}/apps/${_pkgname}.png"
+    done
+
+    # Desktop entries
+    install -d -m755 "${pkgdir}/usr/share/applications"
+    install -D -m644 "${srcdir}/${_pkgname}/${_pkgname}.desktop" "${pkgdir}/usr/share/applications"
+
+    # App files
+    (
+        cd "${srcdir}/${_pkgname}"
+        find . -type f -exec install -Dm644 "{}" "${pkgdir}/opt/${_pkgname}/{}" \;
+    )
+    chmod 755 "${pkgdir}/opt/${_pkgname}/AppRun"
+    chmod 755 "${pkgdir}/opt/${_pkgname}/${_pkgname}"
+
+}
