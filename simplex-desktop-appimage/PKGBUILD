@@ -1,0 +1,70 @@
+# Maintainer: David Kosorin <david@kosorin.net>
+_appname="simplex-chat"
+_pkgname="simplex-desktop"
+pkgname="simplex-desktop-appimage"
+pkgver=5.4.0
+pkgrel=1
+pkgdesc="Messaging platform without user profile identifiers of any kind — 100% private by design"
+arch=("x86_64")
+url="https://simplex.chat/"
+license=("AGPL3")
+depends=("fuse2" "zlib" "hicolor-icon-theme")
+provides=("simplex-chat")
+conflicts=("simplex-chat")
+
+_appimage="${_pkgname}-${arch[0]}.AppImage"
+_rawurl="https://raw.githubusercontent.com/${_appname}/${_appname}/v${pkgver}"
+source=(
+    "${_appimage}::https://github.com/${_appname}/${_appname}/releases/download/v${pkgver}/${_appimage}"
+    "${_rawurl}/PRIVACY.md"
+    "${_rawurl}/README.md"
+    "logo-symbol-dark.svg"
+    "logo-symbol-light.svg"
+    "simplex-desktop.desktop"
+)
+sha256sums=(
+    "73ceebdc99fd330a79fa0564258f2788183a478c04537bf1f22b712a225d1d6f"
+    "SKIP"
+    "SKIP"
+    "SKIP"
+    "SKIP"
+    "SKIP"
+)
+options=(!strip)
+
+build() {
+    # Icon
+    case "${SIMPLEX_ICON}" in
+        light) _icon="light" ;;
+        dark) _icon="dark" ;;
+        *) _icon="dark" ;;
+    esac
+    cp "${srcdir}/logo-symbol-${_icon}.svg" "${srcdir}/${_pkgname}.svg"
+    
+    # Desktop file
+    sed -i "${srcdir}/${_pkgname}.desktop" \
+        -e "s|%PKGNAME%|${_pkgname}|g"
+}
+
+package() {
+    # Icon
+    install -d -m755 "${pkgdir}/usr/share/icons/hicolor/scalable/apps"
+    install -D -m644 "${srcdir}/${_pkgname}.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps"
+
+    # Desktop file
+    install -d -m755 "${pkgdir}/usr/share/applications"
+    install -D -m644 "${srcdir}/${_pkgname}.desktop" "${pkgdir}/usr/share/applications"
+
+    # Other files
+    install -d -m755 "${pkgdir}/usr/share/doc/${_pkgname}"
+    install -D -m644 "${srcdir}/PRIVACY.md" "${pkgdir}/usr/share/doc/${_pkgname}"
+    install -D -m644 "${srcdir}/README.md" "${pkgdir}/usr/share/doc/${_pkgname}"
+
+    # App
+    install -d -m755 "${pkgdir}/opt/${_pkgname}"
+    install -D -m755 "${srcdir}/${_appimage}" "${pkgdir}/opt/${_pkgname}/${_pkgname}"
+
+    # Symlink executable
+    install -d -m755 "${pkgdir}/usr/bin"
+    ln -s "/opt/${_pkgname}/${_pkgname}" "${pkgdir}/usr/bin/${_pkgname}"
+}

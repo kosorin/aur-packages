@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SimpleX
+Comment=Messaging platform without user profile identifiers of any kind — 100% private by design
+Categories=Network;Chat;InstantMessaging;
+Keywords=chat;messaging;privacy;
+Terminal=false
+Exec=env DESKTOPINTEGRATION=0 "/opt/%PKGNAME%/%PKGNAME%"
+Icon=%PKGNAME%
+Version=1.0
