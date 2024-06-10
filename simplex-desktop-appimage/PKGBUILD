@@ -2,7 +2,7 @@
 _appname="simplex-chat"
 _pkgname="simplex-desktop"
 pkgname="simplex-desktop-appimage"
-pkgver=5.4.2
+pkgver=5.8.0
 pkgrel=1
 pkgdesc="Messaging platform without user profile identifiers of any kind — 100% private by design"
 arch=("x86_64")
@@ -22,8 +22,8 @@ source=(
     "logo-symbol-light.svg"
     "simplex-desktop.desktop"
 )
-sha256sums=(
-    "b7dc0538a1a6cbf98616d113bf5124b6eac03384b0ab5abfce87a0a50edd72b7"
+sha512sums=(
+    "4183f6018dc2f08f82f3dd9ac6d6834cce13919c201d38ba792074b965de9c5b5071cdee37fb560cdd3479d26d0859a08a96ad61d358a6d0b0d2a4148b4355bc"
     "SKIP"
     "SKIP"
     "SKIP"
